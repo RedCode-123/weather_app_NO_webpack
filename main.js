@@ -30,6 +30,7 @@ function getTodayDate() {
                 : todayDate.getMonth()+1;
     let day = todayDate.getDate();
     return `${year}-${month}-${day}`;
+    // return `${day}-${month}-${year}`;
 }
 
 async function getGiphyImage(climate) {
@@ -122,12 +123,16 @@ async function main(weatherData) {
     let backgroundUrl = await getGiphyImage(gif);
     mainElement.setAttribute("src", backgroundUrl);
 
-    let date = weatherData?.days[0]?.datetime;
-    let temperature =  weatherData?.days[0]?.temp;
+    let date = getTodayDate();
+    let time = weatherData?.currentConditions?.datetime;
+    let temperature =  weatherData?.currentConditions?.temp;
+    let conditions = weatherData?.currentConditions?.conditions;
     // cityNameHtml.textContent = cityName;
-    dateHtml.textContent = "Date : " + date.split("-").join("/");
+    // dateHtml.textContent = "Date : " + date.split("-").join("/");
+    dateHtml.textContent = "Date : " + date;
+    timeHtml.textContent = "Time: " + time;
     temperatureHtml.textContent = `Temperature : ${temperature} ${unitGroup === "metric" ? "°C" : "°F"}`;
-    description.textContent =  "Description : " + weatherData?.days[0]?.description
+    conditionsHtml.textContent =  "Conditions : " + conditions;
 
     // Make Weather details grid
     html="";
@@ -157,8 +162,9 @@ let searchInput = document.querySelector("#city");
 const searchBtn = document.querySelector(".search-btn")
 // const cityNameHtml = document.querySelector(".city-name");
 const dateHtml = document.querySelector(".today-date");
+const timeHtml = document.querySelector(".today-time");
 const temperatureHtml = document.querySelector(".temperature");
-const description = document.querySelector(".description");
+const conditionsHtml = document.querySelector(".conditions");
 const temperatureOptions = document.querySelectorAll("input[type='radio']")
 let today = getTodayDate();
 let unitGroup = setUnitGroup();

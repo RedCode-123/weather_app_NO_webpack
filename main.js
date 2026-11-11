@@ -66,14 +66,16 @@ async function getDataAPI({location, position, date, unitGroup = "metric"}) {
         location = encodeURIComponent(location);
 
         url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" +
-            location +"/" +date+"/" +"?" + params;
+            location +"/" +"?" + params;
+            // location +"/" +date+"/" +"?" + params;
         console.log(url);
     } else if (position){
 
         let coor = position.latitude.toString() +"," + position.longitude.toString()
 
         url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" +
-            coor +"/" +date+"/" +"?" + params;
+            location +"/" +"?" + params;
+            // coor +"/" +date+"/" +"?" + params;
     }
 
     let response = await fetch(url);
@@ -155,6 +157,28 @@ async function main(weatherData) {
         gridInfo.insertAdjacentHTML("beforeend", html)
     }
 
+    // Make forecast
+    html = "";
+    gridInfo2.textContent = "";
+
+    // día
+    // condición
+    // temp máxima / temp mínima
+    for (let x=1; x < 7; x++) {
+        html = `
+            <div class="item-${x}">
+                <span>${ weatherData?.days[x]?.datetime}</span>
+                <span>${ weatherData?.days[x]?.conditions}</span>
+                <span class="temp-${x}">
+                    <span>${ weatherData?.days[x]?.tempmax} ${unitGroup === "metric" ? "°C" : "°F"}</span>
+                    <span>${ weatherData?.days[x]?.tempmin} ${unitGroup === "metric" ? "°C" : "°F"}</span>
+                </span>
+            </div>
+        `;
+        gridInfo2.insertAdjacentHTML("beforeend", html)
+    }
+
+
 }
 
 const mainElement = document.querySelector("main > .img-container > img");
@@ -173,6 +197,8 @@ let position = getLocation();
 // let weatherData = await getDataAPI({position, date:today, unitGroup});
 let weatherData = getDataAPI({position, date:today, unitGroup});
 const gridInfo = document.querySelector(".sec-2 > .grid-info");
+const gridInfo2 = document.querySelector(".sec-3 > .grid-info-2");
+
 let html = "";
 
 searchBtn.onclick = async () => {

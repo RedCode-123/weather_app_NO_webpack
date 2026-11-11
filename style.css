@@ -90,3 +90,26 @@ input[type="radio"] {
     border-radius: 30px;
 
 }
+
+.sec-3 > .grid-info-2 {
+    display: flex;
+    /* flex-direction: column; */
+    flex-flow: column wrap;
+    gap: 10px;
+}
+
+.sec-3 > .grid-info-2 > [class^="item-"]{
+    padding: 5px 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    background-color: var(--background-color);
+}
+
+.sec-3 > .grid-info-2 > [class^="item-"] > [class^="temp-"] :nth-child(1) {
+    color: red;
+}
+
+.sec-3 > .grid-info-2 > [class^="item-"] > [class^="temp-"] :nth-child(2) {
+    color: green;
+}

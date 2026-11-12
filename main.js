@@ -54,6 +54,7 @@ async function getGiphyImage(climate) {
 
 async function getDataAPI({location, position, date, unitGroup = "metric"}) {
     position = await position;
+    // console.log(position);
     // <<getDataAPI>>
     const API = "FT97ERZJPFZVY6KTHVSR2KG77";
     const params = new URLSearchParams({
@@ -125,7 +126,8 @@ async function main(weatherData) {
     let backgroundUrl = await getGiphyImage(gif);
     mainElement.setAttribute("src", backgroundUrl);
 
-    let date = getTodayDate();
+    // let date = getTodayDate();
+    let date = weatherData?.days[0]?.datetime;
     let time = weatherData?.currentConditions?.datetime;
     let temperature =  weatherData?.currentConditions?.temp;
     let conditions = weatherData?.currentConditions?.conditions;
